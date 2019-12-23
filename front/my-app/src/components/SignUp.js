@@ -1,35 +1,66 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 
-export class SignUp extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      email: ""
-    };
-    this.updateEmailField = this.updateEmailField.bind(this);
-  }
-  updateEmailField(event) {
-    this.setState({ email: event.target.value });
-  }
+const SignUp = () => {
+  const [form, setForm] = useState({
+    email: "mon@email.com",
+    password: "monPassw0rd",
+    name: "James",
+    lastname: "Bond"
+  });
 
-  handleSubmit(event) {
-    alert("Le nom a été soumis : " + this.state.value);
+  const updateForm = e => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const submitForm = event => {
     event.preventDefault();
-  }
+    console.log(form);
+  };
 
-  render() {
-    return (
-      <div>
-        <h1>{this.state.email}</h1>
+  return (
+    <div>
+      <form onSubmit={submitForm}>
+        <h1>{JSON.stringify(form, 1, 1)}</h1>
+
+        <input
+          type="text"
+          name="name"
+          onChange={updateForm}
+          placeholder="name"
+        />
+
+        <input
+          type="text"
+          name="lastname"
+          onChange={updateForm}
+          placeholder="lastname"
+        />
+
         <input
           type="email"
           name="email"
-          onChange={this.updateEmailField}
-          value={this.state.value}
+          onChange={updateForm}
+          placeholder="EMAIL"
         />
-      </div>
-    );
-  }
-}
+
+        <input
+          type="password"
+          name="password"
+          onChange={updateForm}
+          placeholder="password"
+        />
+
+        <input
+          type="password"
+          name="passwordbis"
+          onChange={updateForm}
+          placeholder="confirm password"
+        />
+
+        <input type="submit" value="Soumettre" />
+      </form>
+    </div>
+  );
+};
 
 export default SignUp;
