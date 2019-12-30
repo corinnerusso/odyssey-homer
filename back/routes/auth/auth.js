@@ -3,18 +3,15 @@ const router = express.Router();
 const connection = require("../helpers/db.js");
 
 router.post("/signup", function(req, res, next) {
-  const formData = req.body;
+  const form = req.body;
 
-  connection.query("Insert INTO users SET ?", formData, function(
+  connection.query("INSERT INTO users SET ?", form, function(
     error,
     results,
     fields
   ) {
-    res.send(`ok for ${formData.name}`);
-    if (error) {
-      res.status(500).end("Erreur");
-    }
-
+    if (error) res.status(500).json({ flash: error.message });
+    else res.status(200).json({ flash: "User has been signed up!" });
     res.end();
   });
 });
