@@ -1,20 +1,33 @@
 import React, { useState } from "react";
 
-const SignUp = () => {
+const SignUp = props => {
   const [form, setForm] = useState({
-    email: "mon@email.com",
-    password: "monPassw0rd",
-    name: "James",
-    lastname: "Bond"
+    email: "",
+    password: "",
+    name: "",
+    lastname: ""
   });
+
+  const [flash, setFlash] = useState({ flash: "" });
 
   const updateForm = e => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const submitForm = event => {
-    event.preventDefault();
-    console.log(form);
+  const submitForm = e => {
+    e.preventDefault();
+    fetch("/auth/signup", {
+      method: "POST",
+      headers: new Headers({
+        "Content-Type": "application/json"
+      }),
+      body: JSON.stringify(form)
+    })
+      .then(res => res.json())
+      .then(
+        res => setFlash({ flash: res.flash }),
+        err => setFlash({ flash: err.flash })
+      );
   };
 
   return (
@@ -59,6 +72,7 @@ const SignUp = () => {
 
         <input type="submit" value="Soumettre" />
       </form>
+      <h2>{flash.flash}</h2>
     </div>
   );
 };
