@@ -1,7 +1,7 @@
-const router = require("express-router");
 const express = require("express");
+const router = express.Router();
 
-router.post("/signup", function(req, res, next) {
+router.post("/signup", (req, res, next) => {
   res.send("I am in POST signup");
 });
 
